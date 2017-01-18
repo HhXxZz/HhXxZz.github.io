@@ -241,7 +241,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/hello-world/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/android 仿B站APP首页布局/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="黄潇振">
@@ -266,8 +266,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/11/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2017/01/15/android 仿B站APP首页布局/" itemprop="url">
+                  android 仿B站APP首页布局
                 </a>
               
             
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-11T17:30:04+08:00">
-                2017-01-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T17:01:59+08:00">
+                2017-01-15
               </time>
             
 
@@ -321,15 +321,144 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <h3 id="android-仿B站APP首页布局"><a href="#android-仿B站APP首页布局" class="headerlink" title="android 仿B站APP首页布局"></a>android 仿B站APP首页布局</h3><p>一直很喜欢android material design风格的布局，B站的APP设计风格就是material design的风格，就动手实现了一下。</p>
+<p>B站首页有抽屉，其实这是两个不同的布局，抽屉是DrawerLayout，正常页面是CoordinatorLayout。</p>
+<p>先看看抽屉DrawerLayout<br><img src="./uploads/head.png" alt="Alt text"><br>里面的内容都是由的NavigationView实现，具体代码为</p>
+<pre><code> &lt;android.support.v4.widget.DrawerLayout      
+        xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+        xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+        android:id=&quot;@+id/drawer_layout&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:fitsSystemWindows=&quot;true&quot;
+        tools:openDrawer=&quot;start&quot;&gt;
+
+    &lt;include
+        layout=&quot;@layout/activity_main&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot; /&gt;
+
+    &lt;android.support.design.widget.NavigationView
+        android:id=&quot;@+id/nav_view&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:layout_gravity=&quot;start&quot;
+        android:fitsSystemWindows=&quot;true&quot;
+        app:headerLayout=&quot;@layout/nav_header_main&quot;
+        app:menu=&quot;@menu/activity_main_drawer&quot;
+        app:itemTextColor=&quot;#000&quot;
+    /&gt;
+&lt;/android.support.v4.widget.DrawerLayout&gt;
+</code></pre><p>在NavigationView的headerLayout和menu添加布局和菜单，即可实现抽屉，例如</p>
+<p>nav_header_main</p>
+<pre><code>&lt;LinearLayout 
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:gravity=&quot;bottom&quot;
+    android:orientation=&quot;vertical&quot;
+    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;
+    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
+    android:background=&quot;@color/colorBar&quot;
+    &gt;
+
+&lt;ImageView
+    android:id=&quot;@+id/imageView&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:src=&quot;@android:drawable/sym_def_app_icon&quot; /&gt;
+
+&lt;TextView
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;Android Studio&quot;
+    android:textAppearance=&quot;@style/TextAppearance.AppCompat.Body1&quot; /&gt;
+
+&lt;TextView
+    android:id=&quot;@+id/textView&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;android.studio@android.com&quot; /&gt;
+</code></pre><p></p>
+<p>activity_main_drawer</p>
+<pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+&lt;group android:checkableBehavior=&quot;single&quot;&gt;
+    &lt;item
+        android:id=&quot;@+id/nav_camera&quot;
+        android:title=&quot;Import&quot; /&gt;
+    &lt;item
+        android:id=&quot;@+id/nav_gallery&quot;
+        android:title=&quot;Gallery&quot; /&gt;
+    &lt;item
+        android:id=&quot;@+id/nav_slideshow&quot;
+        android:title=&quot;Slideshow&quot; /&gt;
+    &lt;item
+        android:id=&quot;@+id/nav_manage&quot;
+        android:title=&quot;Tools&quot; /&gt;
+&lt;/group&gt;
+</code></pre><p></p>
+<p>抽屉的布局代码完成，接下来实现首页布局activity_main<br>B站APP的效果是下拉的时候会隐藏Toolbar，所以我们需要用到CoordinatorLayout<br>所以大概的布局为<br><img src="./uploads/jpg.png" alt="Alt text"><br>代码</p>
+<pre><code>&lt;android.support.design.widget.CoordinatorLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.ui.MainActivity&quot;&gt;
+
+&lt;android.support.design.widget.AppBarLayout
+    android:id=&quot;@+id/app_bar_layout&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;&gt;
+
+&lt;android.support.v7.widget.Toolbar
+    android:id=&quot;@+id/main_toolbar&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:fitsSystemWindows=&quot;true&quot;
+    android:minHeight=&quot;?attr/actionBarSize&quot;
+    android:background=&quot;?attr/colorPrimary&quot;
+    app:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;
+    app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot;
+    app:layout_scrollFlags=&quot;scroll|enterAlways&quot;
+    &gt;
+
+    &lt;/android.support.v7.widget.Toolbar&gt;
+
+    &lt;android.support.design.widget.TabLayout
+        android:id=&quot;@+id/tab&quot;
+        android:layout_below=&quot;@+id/main_toolbar&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        app:tabIndicatorColor=&quot;@color/white&quot;
+        app:tabSelectedTextColor=&quot;@color/white&quot;
+        app:tabBackground=&quot;@color/colorBar&quot;
+        app:tabTextColor=&quot;@color/white_50&quot;
+        /&gt;
+
+&lt;/android.support.design.widget.AppBarLayout&gt;
+
+    &lt;android.support.v4.view.ViewPager
+        android:id=&quot;@+id/vp_view&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;
+        /&gt;
+
+
+&lt;/android.support.design.widget.CoordinatorLayout &gt;
+</code></pre><p>需要下拉的时候隐藏ToolBar 必须在ToolBar加上</p>
+<blockquote>
+<p>app:layout_scrollFlags=”scroll|enterAlways”</p>
+</blockquote>
+<p>ViewPage加上</p>
+<blockquote>
+<p>app:layout_behavior=”@string/appbar_scrolling_view_behavior”</p>
+</blockquote>
+<p>另外需要注意的是，viewpage里面的滑动布局必须为<strong>NestedScrollView</strong>或者是<strong>RecylerView</strong>，如果你使用<strong>ScrollView</strong>或者<strong>ListView</strong>，是不会有效果的。</p>
 
           
         
